@@ -1,2 +1,3 @@
 .env
 stack.yml
+!stack-templates/*.yml

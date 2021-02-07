@@ -1,0 +1,77 @@
+version: "3.3"
+services:
+  traefik:
+    image: docker.io/traefik:2.4
+    volumes:
+     - ./traefik/conf:/etc/traefik
+     - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+     - frontend
+    ports:
+     - 80:80
+     - 443:443
+     - 8080:8080
+    restart: unless-stopped
+    deploy:
+      placement:
+        constraints:
+         - "node.role==manager"
+  app:
+    image: ghcr.io/linuxserver/nextcloud
+    environment:
+      - PUID=${NEXTCLOUD_UID}
+      - PGID=${NEXTCLOUD_GID}
+      - TZ=${TIMEZONE}
+    volumes:
+      - ./nextcloud/config:/config
+      - ./nextcloud/data:/data
+    networks:
+      - frontend
+      - backend
+    deploy:
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.nextcloud.rule=Host(`${NEXTCLOUD_HOST_DOMAIN}`)
+        - traefik.http.routers.nextcloud.tls=true
+        - traefik.http.routers.nextcloud.entryPoints=web-secure
+        - traefik.http.routers.nextcloud.tls.certResolver=letsencrypt-resolver
+        - traefik.http.routers.nextcloud.middlewares=hsts@file,nextcloud-dav-redirect@file
+        - traefik.http.routers.nextcloud-insecure.rule=Host(`${NEXTCLOUD_HOST_DOMAIN}`)
+        - traefik.http.routers.nextcloud-insecure.service=nextcloud-service
+        - traefik.http.routers.nextcloud-insecure.middlewares=redirect-to-https@file
+        - traefik.http.routers.nextcloud-insecure.entryPoints=web
+        - traefik.http.services.nextcloud-service.loadbalancer.server.port=80
+    depends_on:
+      - mariadb
+      - redis
+    restart: unless-stopped
+  mariadb:
+    image: ghcr.io/linuxserver/mariadb
+    environment:
+      - PUID=${MARIADB_UID}
+      - PGID=${MARIADB_GID}
+      - TZ=${TIMEZONE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=${MYSQL_USER_PASSWORD}
+    volumes:
+      - ./mariadb/config:/config
+    networks:
+      - backend
+    restart: unless-stopped
+  redis:
+    image: docker.io/redis:6-alpine
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+    volumes:
+      - ./redis/data:/var/redis
+      - ./redis/conf:/usr/local/etc/redis
+    networks:
+      - backend
+    user: ${REDIS_UID}:${REDIS_GID}
+    restart: unless-stopped
+networks:
+  frontend:
+    driver: overlay
+  backend:
+    driver: overlay
