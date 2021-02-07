@@ -1,0 +1,9 @@
+.rnd
+.cache
+keys
+log
+php
+crontabs
+nginx/*
+!nginx/site-confs
+www

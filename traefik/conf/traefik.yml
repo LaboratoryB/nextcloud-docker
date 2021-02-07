@@ -1,0 +1,23 @@
+providers:
+  docker:
+    swarmMode: true
+    exposedByDefault: false
+    network: nextcloud_frontend
+  file:
+    directory: "/etc/traefik/dynamic"
+entryPoints:
+  web-secure:
+    address: ':443'
+    http:
+      tls:
+        certResolver: letsencrypt-resolver
+  web:
+    address: ':80'
+certificatesResolvers:
+  letsencrypt-resolver:
+    acme:
+      storage: /etc/traefik/acme/auth.json
+      httpChallenge:
+        entryPoint: web
+api:
+  insecure: true
