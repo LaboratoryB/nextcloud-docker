@@ -1,7 +1,10 @@
 tls:
   options:
     default:
+      # set the minimum TLS version to TLS 1.2 for high security, with some back-compatibility
+      # note this will prevent some very old and insecure systems from connecting
       minVersion: VersionTLS12
+      # restrict to secure cipher suites since TLS 1.2 is on
       cipherSuites:
         - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
         - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
@@ -11,14 +14,27 @@ tls:
         - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
 http:
   middlewares:
+    # define a middleware that permanently redirects all requests to the https equivalent
     redirect-to-https:
       redirectScheme:
         scheme: https
         permanent: true
-    hsts-header:
+    # middleware that appends a basic HSTS security header
+    hsts:
       headers:
         customResponseHeaders:
           Strict-Transport-Security: max-age=63072000
+    # middleware that appends a full domain-wide, preloaded HSTS header
+    # read docs about HSTS preload, and its implications, before using this middleware
+    # https://hstspreload.org/#deployment-recommendations
+    hsts-preload:
+      headers:
+        customResponseHeaders:
+          Strict-Transport-Security: max-age=63072000; includeSubdomains; preload
+    # redirect .well/known/carddav and ./well-known/caldav to the correct Nextcloud URL
+    # this is necessary as Nextcloud does not serve this redirect correctly behind a backproxy
+    # this is based on a recommendation from the official Nextcloud docs for Service Discovery
+    # https://docs.nextcloud.com/server/21/admin_manual/configuration_server/reverse_proxy_configuration.html?highlight=traefik#traefik-2
     nextcloud-dav-redirect:
       redirectRegex:
         permanent: true
