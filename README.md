@@ -5,8 +5,10 @@ Securely run your own Nextcloud instance using Docker Swarm.
 ![Nextcloud Logo](/img/logo_nextcloud_blue.png)
 
 ## Prerequisites
-- Linux
-- Docker
+- Linux (kernel 4.0+)
+- Docker (API version 1.24+)
+- GNU Bash
+- OpenSSL (for generating passwords)
 - At least 1GB of free disk space
 
 
