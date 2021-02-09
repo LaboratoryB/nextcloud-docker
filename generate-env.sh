@@ -1,10 +1,11 @@
 #!/bin/bash
-set -x pipefail
+NEXTCLOUD_HOST_DOMAIN=$1
 if [ -z "$1" ]; then
   echo "Error: please pass your desired domain name."
   echo "Example: ./generate-env.sh cloud.laboratoryb.org"
   exit 1
 fi
+set -eux pipefail
 ENV_FILE=./.env
 if [ -f "$ENV_FILE" ]; then
   echo "Warning: Existing environment variables already exist at $ENV_FILE"
@@ -23,7 +24,6 @@ fi
 TIMEZONE=America/New_York
 MYSQL_ROOT_PASSWORD=$(openssl rand -base64 32)
 MYSQL_USER_PASSWORD=$(openssl rand -base64 32)
-NEXTCLOUD_HOST_DOMAIN=$1
 DEFAULT_UID=$(id -u);
 DEFAULT_GID=$(id -g);
 echo '#!/bin/bash' > $ENV_FILE

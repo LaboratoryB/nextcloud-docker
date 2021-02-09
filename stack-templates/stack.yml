@@ -14,7 +14,9 @@ services:
      - target: 443
        published: 443
        mode: host
-     - 8080:8080
+     - target: 8080
+       published: 8080
+       mode: host
     restart: unless-stopped
     deploy:
       placement:
@@ -39,7 +41,9 @@ services:
         - traefik.http.routers.nextcloud.tls=true
         - traefik.http.routers.nextcloud.entryPoints=web-secure
         - traefik.http.routers.nextcloud.tls.certResolver=letsencrypt-resolver
-        - traefik.http.routers.nextcloud.middlewares=hsts@file,nextcloud-dav-redirect@file
+      # uncomment this line, and delete the one that follows, to enable HSTS:
+      # - traefik.http.routers.nextcloud.middlewares=hsts@file,nextcloud-dav-redirect@file
+        - traefik.http.routers.nextcloud.middlewares=nextcloud-dav-redirect@file
         - traefik.http.routers.nextcloud-insecure.rule=Host(`${NEXTCLOUD_HOST_DOMAIN}`)
         - traefik.http.routers.nextcloud-insecure.service=nextcloud-service
         - traefik.http.routers.nextcloud-insecure.middlewares=redirect-to-https@file
