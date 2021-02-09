@@ -79,6 +79,14 @@ echo "127.0.0.1 nextcloud.example.com" | sudo tee -a /etc/hosts
 
 16. Check your server with [Qualys SSL Labs](https://www.ssllabs.com/) to confirm your HTTPS implementation is secure.
 
+## Updating
+An updater script is included, that will get the latest container images for Traefik, Nextcloud, MariaDB, Redis, and immediately update to them. Running this script will cause your Nextcloud instance to be temporarily go offline, usually only about a minute.
+
+To update, open a terminal and run:
+```bash
+./update.sh
+```
+
 ## License
 
 Copyright © 2021 Aaron Silber
@@ -90,7 +98,6 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 You should have received a copy of the GNU General Public License along with this program. If not, see [https://www.gnu.org/licenses/](https://www.gnu.org/licenses/).
 
 Please note, each individual application this stack lets you run is governed by their own respective license. For example, Nextcloud is licensed under AGPLv3 at the time of writing. Be sure to adhere to these licenses as well if you make use of this project.
-
 
 ## Trademarks
 
