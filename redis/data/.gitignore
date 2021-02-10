@@ -1,4 +1,0 @@
-# track this directory but nothing inside it
-*
-*.rdb
-!.gitignore

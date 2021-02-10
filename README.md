@@ -9,7 +9,7 @@ Securely run your own Nextcloud instance using Docker Swarm.
 - Docker (API version 1.24+)
 - GNU Bash
 - OpenSSL (for generating passwords)
-- At least 1GB of free disk space
+- At least 2GB of free disk space
 
 
 ## Quick Start
@@ -44,7 +44,7 @@ cd nextcloud-docker
 ./deploy.sh
 ```
 
-9. Find the local IP of the machine running Docker, for example `10.0.0.10`, `192.168.1.10`, or if you are running Docker on the machine you're reading this on, `127.0.0.1`. Add this along with your Nextcloud subdomain to your hosts file:
+9. Find the local IP of the machine running Docker, for example `10.0.0.10`, `192.168.1.10`, or if you are running Docker on the machine you're reading this on, `127.0.0.1`. Add this along with your Nextcloud subdomain to your hosts file by running:
 ```bash
 echo "127.0.0.1 nextcloud.example.com" | sudo tee -a /etc/hosts
 ```
@@ -56,8 +56,8 @@ echo "127.0.0.1 nextcloud.example.com" | sudo tee -a /etc/hosts
 - An admin password of your choosing
 - Storage: `/data`
 - Database: `MySQL`
-- Database user: `root`
-- Database password: look for MYSQL_ROOT_PASSWORD in .env
+- Database user: `nextcloud-installer`
+- Database password: look for MYSQL_USER_PASSWORD in .env
 - Database name: `nextcloud`
 - Database host: `nextcloud_mariadb`
 

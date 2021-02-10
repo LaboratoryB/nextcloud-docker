@@ -1,4 +1,7 @@
 version: "3.3"
+volumes:
+  mysql-data:
+  redis-data:
 services:
   traefik:
     image: docker.io/traefik:2.4
@@ -54,29 +57,29 @@ services:
       - redis
     restart: unless-stopped
   mariadb:
-    image: ghcr.io/linuxserver/mariadb
+    image: docker.io/mariadb:10
     environment:
-      - PUID=${MARIADB_UID}
-      - PGID=${MARIADB_GID}
       - TZ=${TIMEZONE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=nextcloud
-      - MYSQL_USER=nextcloud
+      - MYSQL_USER=nextcloud-installer
       - MYSQL_PASSWORD=${MYSQL_USER_PASSWORD}
     volumes:
-      - ./mariadb/config:/config
+      - ./mariadb/config:/etc/mysql/conf.d
+      - mysql-data:/var/lib/mysql
     networks:
       - backend
+    #user: ${MARIADB_UID}:${MARIADB_UID}
     restart: unless-stopped
   redis:
     image: docker.io/redis:6-alpine
     command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
     volumes:
-      - ./redis/data:/var/redis
-      - ./redis/conf:/usr/local/etc/redis
+      - ./redis/config:/usr/local/etc/redis
+      - redis-data:/var/redis
     networks:
       - backend
-    user: ${REDIS_UID}:${REDIS_GID}
+    #user: ${REDIS_UID}:${REDIS_GID}
     restart: unless-stopped
 networks:
   frontend:
