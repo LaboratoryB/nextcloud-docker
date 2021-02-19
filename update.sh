@@ -5,6 +5,6 @@ set -eux pipefail
 docker pull docker.io/traefik:2.4
 docker pull docker.io/redis:6-alpine
 docker pull ghcr.io/linuxserver/nextcloud
-docker pull ghcr.io/linuxserver/mariadb
+docker pull docker.io/mariadb:10
 # redeploy the Swarm service to use the new images
 ./deploy.sh
