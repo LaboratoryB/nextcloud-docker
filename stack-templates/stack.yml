@@ -76,7 +76,7 @@ services:
     command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
     volumes:
       - ./redis/config:/usr/local/etc/redis
-      - redis-data:/var/redis
+      - redis-data:/data
     networks:
       - backend
     #user: ${REDIS_UID}:${REDIS_GID}
