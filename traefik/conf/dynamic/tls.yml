@@ -22,15 +22,15 @@ http:
     # middleware that appends a basic HSTS security header
     hsts:
       headers:
-        customResponseHeaders:
-          Strict-Transport-Security: max-age=63072000
+        stsSeconds: 63072000
     # middleware that appends a full domain-wide, preloaded HSTS header
     # read docs about HSTS preload, and its implications, before using this middleware
     # https://hstspreload.org/#deployment-recommendations
     hsts-preload:
       headers:
-        customResponseHeaders:
-          Strict-Transport-Security: max-age=63072000; includeSubdomains; preload
+        stsSeconds: 63072000
+        stsIncludeSubdomains: true
+        stsPreload: true
     # redirect .well/known/carddav and ./well-known/caldav to the correct Nextcloud URL
     # this is necessary as Nextcloud does not serve this redirect correctly behind a backproxy
     # this is based on a recommendation from the official Nextcloud docs for Service Discovery
@@ -40,4 +40,3 @@ http:
         permanent: true
         regex: "https://(.*)/.well-known/(card|cal)dav"
         replacement: "https://${1}/remote.php/dav/"
-
