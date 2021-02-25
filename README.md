@@ -89,6 +89,31 @@ To update, open a terminal and run:
 ./update.sh
 ```
 
+## Nextcloud Console Command Use
+Nextcloud is mostly administered through the web interface, however some tasks must be performed from the Nextcloud Console. If you need to run the `occ` command -
+
+Open a shell into the Nextcloud container:
+```bash
+./shell.sh
+```
+
+Once you enter the shell, you can run commands like:
+```bash
+occ --version
+occ db:add-missing-indicies
+```
+
+A list of `occ` commands can be found in the [Nextcloud 20 Documentation of the command](https://docs.nextcloud.com/server/20/admin_manual/configuration_server/occ_command.html).
+
+## Re-installation / Factory Reset
+A script is included to remove all your Nextcloud data and configuration. This may be useful if you mess up your Nextcloud installation, and it gets stuck, and you want to start over. You may also find it useful for development purposes.
+
+**Warning:** Running this will remove all your data. You probably can't recover it. Use with care.
+
+```bash
+./purge-data.sh
+```
+
 ## License
 
 Copyright © 2021 Aaron Silber
