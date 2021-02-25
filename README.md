@@ -1,16 +1,19 @@
 # Nextcloud Docker Stack
 
-Securely run your own Nextcloud instance using Docker Swarm.
+Securely run your own Nextcloud instance using Docker swarm mode. Jump to [Quick Start](#quick-start) to get started.
 
 ![Nextcloud Logo](/img/logo_nextcloud_blue.png)
 
+## Technical Overview
+Use Docker's built-in container orchestrator, [swarm mode](https://docs.docker.com/engine/swarm/) to deploy a simple security and performance-tuned Nextcloud server. In this stack, [linuxserver's Nextcloud](https://hub.docker.com/r/linuxserver/nextcloud/) container is at the center of everything. [Traefik proxy](https://github.com/traefik/traefik) sits in front, providing TLS termination, automatic Let's Encrypt certificate issuance and renewal, and security header management. The [Docker Official Redis](https://hub.docker.com/_/redis) container provide a more optimized in-memory cache to accelerate Nextcloud. The [Docker Official MariaDB](https://hub.docker.com/_/mariadb) container provides a scalable database to handle multiple users, large numbers of files, and syncing.
+
 ## Prerequisites
-- Linux (kernel 4.0+)
+- Linux (kernel 4.0+ recommended)
 - Docker (API version 1.24+)
 - GNU Bash
 - OpenSSL (for generating passwords)
-- At least 2GB of free disk space
-
+- Git (for cloning this repo)
+- At least 2GB of free disk space to be useful
 
 ## Quick Start
 These instructions are for setting up a single-node Nextcloud instance at https://nextcloud.example.com. Substitute nextcloud.example.com for your desired subdomain.
@@ -103,7 +106,7 @@ occ --version
 occ db:add-missing-indicies
 ```
 
-A list of `occ` commands can be found in the [Nextcloud 20 Documentation of the command](https://docs.nextcloud.com/server/20/admin_manual/configuration_server/occ_command.html).
+A list of `occ` commands can be found in the [Nextcloud Documentation of the command](https://docs.nextcloud.com/server/stable/admin_manual/configuration_server/occ_command.html) (you should omit `sudo -u www-data php ` - the `./shell.sh` command handles this for you)
 
 ## Re-installation / Factory Reset
 A script is included to remove all your Nextcloud data and configuration. This may be useful if you mess up your Nextcloud installation, and it gets stuck, and you want to start over. You may also find it useful for development purposes.
