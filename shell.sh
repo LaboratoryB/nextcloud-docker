@@ -1,7 +1,7 @@
 #!/bin/bash
 # shell.env: get into a shell inside the Nextcloud container
 source .env
-set -eux pipefail
+set -euxo pipefail
 APP_SERVICE=nextcloud_app
 APP_CONTAINER=$(docker ps -f name=${APP_SERVICE} --quiet --no-trunc)
 SHELL_CMD=/bin/bash

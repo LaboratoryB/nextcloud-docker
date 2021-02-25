@@ -69,7 +69,6 @@ services:
       - mysql-data:/var/lib/mysql
     networks:
       - backend
-    #user: ${MARIADB_UID}:${MARIADB_UID}
     restart: unless-stopped
   redis:
     image: docker.io/redis:6-alpine
@@ -79,7 +78,6 @@ services:
       - redis-data:/data
     networks:
       - backend
-    #user: ${REDIS_UID}:${REDIS_GID}
     restart: unless-stopped
 networks:
   frontend:

@@ -5,7 +5,7 @@ if [ -z "$1" ]; then
   echo "Example: ./generate-env.sh cloud.laboratoryb.org"
   exit 1
 fi
-set -eux pipefail
+set -euxo pipefail
 ENV_FILE=./.env
 if [ -f "$ENV_FILE" ]; then
   echo "Warning: Existing environment variables already exist at $ENV_FILE"
@@ -33,7 +33,3 @@ echo "export MYSQL_USER_PASSWORD=$MYSQL_USER_PASSWORD" >> $ENV_FILE
 echo "export NEXTCLOUD_HOST_DOMAIN=$NEXTCLOUD_HOST_DOMAIN" >> $ENV_FILE
 echo "export NEXTCLOUD_UID=$DEFAULT_UID" >> $ENV_FILE
 echo "export NEXTCLOUD_GID=$DEFAULT_GID" >> $ENV_FILE
-echo "export MARIADB_UID=$DEFAULT_UID" >> $ENV_FILE
-echo "export MARIADB_GID=$DEFAULT_GID" >> $ENV_FILE
-echo "export REDIS_UID=$DEFAULT_UID" >> $ENV_FILE
-echo "export REDIS_GID=$DEFAULT_GID" >> $ENV_FILE

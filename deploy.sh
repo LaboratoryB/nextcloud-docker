@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x pipefail
+set -xo pipefail
 # check for .env and if it doesn't exist, generate one
 if [ ! -f ./.env ]; then
   echo '.env does not exist. Generating environnent variables...'
