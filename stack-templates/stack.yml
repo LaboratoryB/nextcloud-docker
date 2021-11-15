@@ -57,7 +57,7 @@ services:
       - redis
     restart: unless-stopped
   mariadb:
-    image: docker.io/mariadb:10
+    image: docker.io/mariadb:10.5
     environment:
       - TZ=${TIMEZONE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
