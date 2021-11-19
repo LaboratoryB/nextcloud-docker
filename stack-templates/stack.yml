@@ -4,7 +4,7 @@ volumes:
   redis-data:
 services:
   traefik:
-    image: docker.io/traefik:2.4
+    image: docker.io/traefik:2.5
     volumes:
      - ./traefik/conf:/etc/traefik
      - /var/run/docker.sock:/var/run/docker.sock
